@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<!-- 
+    SmolJSImageView
+    Version 2021.1 (First Release)
+    Developed by Megumumpkin
+    Licensed under MIT
+
+    See how it works by downloading this and the demo folder (SJImageGallery_Demo_Resources)
+
+
+
+    MIT License
+
+    Copyright (c) 2021 Megumumpkin
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy
+    of this software and associated documentation files (the "Software"), to deal
+    in the Software without restriction, including without limitation the rights
+    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+    copies of the Software, and to permit persons to whom the Software is
+    furnished to do so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+-->
+<html>
+    <head>
+        <title>SJImageViewDemo</title>
+    </head>
+    <body style="background-color: black;">
+        <!-- Start copying here! -->
+        <div id="sjimgview" style="width:600px; height:500px; background-color: rgb(170, 170, 170); overflow: hidden; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; -o-user-select: none; user-select: none; overflow: hidden;">
+            <div id="sjimgview_subimgview" style="width:600px; height:400px; background-color: rgb(17, 17, 17); overflow: hidden;"></div>
+            <div id="sjimgview_sublistbar" style="width:600px; height:100px; background-color: rgb(32, 32, 32); overflow: hidden;"></div>
+        </div>
+        <script>
+            var maindom, subimgview, sublistbar, subimgview_s, sublistbar_s, curimgid, pos, spos, poslerp, sposlerp, myjson, vgrida, vgridb, vwidth, vheight, vswidth, vsheight, dvis, dvislerp, dtimer, bvis, bvislerp, btimer;
+
+            vwidth = 800;
+            vheight = 600;
+            vswidth = 120;
+            vsheight = 100;
+
+            pos = 0;
+            spos = 0;
+            poslerp = 0;
+            sposlerp = 0;
+            curimgid = 0;
+
+            dtimer = 0;
+            dvis = 0.0;
+            dvislerp = 0.0;
+            btimer = 0;
+            bvis = 0.0;
+            bvislerp = 0.0;
+            
+            //!!!------------Edit image resources here------------!!!
+            //Change the image sources, titles, and description that fit your needs
+            mylist = {
+                license:"Licensed under MIT License (c) 2021 Megumumpkin",
+                image:[
+                    {
+                        title:"Think, Think!",
+                        desc:"This is a test",
+                        image:"SJImageGallery_Demo_Resource/yakuza-think.jpg"
+                    },
+                    {
+                        title:"Natural Habitat",
+                        desc:"This is nature at it's finest",
+                        image:"SJImageGallery_Demo_Resource/bus-drink.jpg"
+                    },
+                    {
+                        title:"The Face",
+                        desc:"An immersive game in the sci fi world genre",
+                        image:"SJImageGallery_Demo_Resource/artistic.png"
+                    }
+                ]
+            }
+            //!!!------------Edit image resources here------------!!!
+
+            function setViews(){
+                //Get main DOM data
+                maindom = document.getElementById("sjimgview");
+                subimgview = document.getElementById("sjimgview_subimgview");
+                sublistbar = document.getElementById("sjimgview_sublistbar");
+
+                //Create View
+                maindom.style.width = vwidth+'px';
+                maindom.style.height = vheight+'px';
+
+                subimgview.style.width = vwidth+'px';
+                subimgview.style.height = (vheight-vsheight)+'px';
+
+                sublistbar.style.width = vwidth+'px';
+                sublistbar.style.height = vsheight+'px';
+
+                vgrida = '<div id="sjimgview_subimgview_scr" style="width:'+vwidth*mylist.image.length+'px; height:'+(vheight-vsheight)+'px; position:relative; right:0px;"><table style="border-collapse:collapse;"><tr>';
+                vgridb = '<div id="sjimgview_sublistbar_bar" style="width:'+vwidth*mylist.image.length+'px; height:'+vsheight+'px; position:relative; right:0px;"><table style="border-collapse:collapse;"><tr>';
+                for(let i=0; i<mylist.image.length; i++){
+                    vgrida += '<td><div style="width:'+vwidth+'px; height:'+(vheight-vsheight)+'px; margin:-1px;">';
+                    vgrida += '<img src="'+mylist.image[i].image+'" alt="'+mylist.image[i].desc+'" style="max-width:100%; max-height:100%; display: block; margin-left:auto; margin-right:auto; position: relative; top:50%; transform: translate(0, -50%);"></img>';
+                    vgrida += '</div></td>';
+                    
+                    vgridb += '<td><div id="siv_a_'+i+'" style="width:'+vswidth+'px; height:'+vsheight+'px;">';
+                    vgridb += '<img src="'+mylist.image[i].image+'" alt="'+mylist.image[i].desc+'" style="max-width:90%; max-height:90%; border-style: solid; display: block; margin-left:auto; margin-right:auto; position: relative; top:50%; transform: translate(0, -50%);"></img>';
+                    vgridb += '</div></td>';
+                }
+                vgrida += '</tr></table></div>';
+
+                vgrida += '<div id="siv_b_l" style="width:50px; height:100px; background-color: rgb(100,100,100); position:absolute; top:'+(((vheight-vsheight)/2.0)-50)+'px; text-align: center; opacity:0.5;"><p style="top:50%; margin-top:+25px; font-size:40px; font-weight:bold; font-family:fantasy; color:white;"><<p></div>';
+                vgrida += '<div id="siv_b_r" style="width:50px; height:100px; background-color: rgb(100,100,100); position:absolute; top:'+(((vheight-vsheight)/2.0)-50)+'px; left: '+(vwidth-42)+'px; text-align: center; opacity:0.5;"><p style="top:50%; margin-top:+25px; font-size:40px; font-weight:bold; font-family:fantasy; color:white;">><p></div>';
+
+                vgrida += '<div id="siv_c_a" style="width: '+vwidth+'px; height:80px; background-color: rgb(0,0,0); position:absolute; top:'+(vheight-vsheight-72)+'px; opacity:0.5;"><p id="siv_c_t" style="margin-left:15px; margin-top:5px;font-size:20px; font-weight:bold; font-family:sans-serif; color:white;"><p id="siv_c_d" style="margin-left:20px; margin-top:-15px;font-size:16px; font-family:sans-serif; color:white;"></div>';
+
+                vgridb += '</div>';
+
+                subimgview.innerHTML=vgrida;
+                sublistbar.innerHTML=vgridb;
+
+                subimgview_s = document.getElementById('sjimgview_subimgview_scr');
+                sublistbar_s = document.getElementById('sjimgview_sublistbar_bar');
+
+                //Preload UI
+                for(let i=0; i<mylist.image.length; i++){
+                    viewgrid = document.getElementById('siv_a_'+i);
+                    viewgrid.style.backgroundColor = "";
+
+                    if(i == curimgid){
+                        document.getElementById('siv_c_t').innerHTML = mylist.image[i].title;
+                        document.getElementById('siv_c_d').innerHTML = mylist.image[i].desc;
+                        viewgrid.style.backgroundColor = "rgb(255,255,255, 0.1)";
+                    }
+                }
+            }
+
+            //Button events for scroll buttons and image thumbs
+            window.addEventListener('click', function(e){
+                //button on top
+                if(document.getElementById('siv_b_l').contains(e.target) && curimgid > 0){
+                    curimgid -= 1;
+                    pos = vwidth*curimgid;
+                    spos = vswidth*curimgid;
+                    dtimer = 0;
+                }
+                if(document.getElementById('siv_b_r').contains(e.target) && curimgid < mylist.image.length-1){
+                    curimgid += 1;
+                    pos = vwidth*curimgid;
+                    spos = vswidth*curimgid;
+                    dtimer = 0;
+                }
+
+                //submenu views
+                for(let i=0; i<mylist.image.length; i++){
+                    viewgrid = document.getElementById('siv_a_'+i);
+                    if (viewgrid.contains(e.target)){
+                        pos = vwidth*i;
+                        spos = vswidth*i;
+                        curimgid = i;
+                        dtimer = 0;
+                    }
+                }
+
+                for(let i=0; i<mylist.image.length; i++){
+                    viewgrid = document.getElementById('siv_a_'+i);
+                    viewgrid.style.backgroundColor = "";
+
+                    if(i == curimgid){
+                        document.getElementById('siv_c_t').innerHTML = mylist.image[i].title;
+                        document.getElementById('siv_c_d').innerHTML = mylist.image[i].desc;
+                        viewgrid.style.backgroundColor = "rgb(255,255,255, 0.1)";
+                    }
+                }
+            });
+
+            //Mouse over for scroll buttons
+            window.addEventListener('mouseover', function(e){
+                //Button View
+                if(document.getElementById('siv_b_l').contains(e.target) || document.getElementById('siv_b_r').contains(e.target)){
+                    bvis = 1.0;
+                }else{
+                    bvis = 0.0;
+                }
+            });
+
+            //Lerp function, stops calculating when difference is too small
+            function lerp(start, end, fac) {
+                if(end-start < 0.1 && end-start > -0.1)
+                    return end;
+                else return start * (1 - fac) + end * fac;
+            }
+
+            //For scrolling effect
+            function updateScroll(){
+                poslerp = lerp(poslerp, pos, 0.1);
+                subimgview_s.style.right=poslerp+'px';
+                sposlerp = lerp(sposlerp, spos, 0.2);
+                sublistbar_s.style.right=sposlerp-(vwidth/2.0)+(vswidth/2.0)+'px';
+            }
+
+            //For buttons and info
+            function updateViewVis(){
+                if(dtimer < 300){
+                    dtimer++;
+                }
+                if(dtimer > 295){
+                    dvis = 0.0
+                }else{
+                    dvis = 1.0
+                }
+                dvislerp = lerp(dvislerp, dvis, 0.1);
+                bvislerp = lerp(bvislerp, bvis, 0.2);
+                document.getElementById('siv_c_a').style.opacity = dvislerp*0.5;
+                document.getElementById('siv_b_l').style.opacity = bvislerp*0.5;
+                document.getElementById('siv_b_r').style.opacity = bvislerp*0.5;
+            }
+
+            setViews();
+            setInterval(function(){
+                //Update Views
+                updateScroll();
+                updateViewVis();
+            }, 16);
+        </script>
+        <!-- Stop copying here! -->
+    </body>
+</html>
