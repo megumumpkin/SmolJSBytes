@@ -2,7 +2,7 @@
 
 An embeddable and configurable image gallery.
 
-Version 2021.1.2 (First revision)
+Version 2021.1.3 (Second revision)
 
 <br />
 <br />
@@ -90,6 +90,7 @@ image:[
 ### 4. Minify the script and paste it into your website
 Copy the edited text inside the `<script>` bracket (from after `<script>` to before `</script>`) from the text editor and paste it into [jscompress.com](https://jscompress.com/) (inside the text box) and then click **Compress Javascript** in the site, copy the text inside the box and replace the text inside the `<script>` bracket with the minified one.
 
-After all that is done all that is left is to copy all the text inside the text editor into your desired site, remember to edit the text in html view, not the visual one (if you're in wordpress).
+After all that is done all that is left is to copy all the text inside the text editor into your desired site.
+For wordpress, you need the Code Embed plugin to insert this to your page.
 
 ### Done.
