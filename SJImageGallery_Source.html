@@ -42,7 +42,7 @@
             <div id="sjimgview_sublistbar" style="width:600px; height:100px; background-color: rgb(32, 32, 32); overflow: hidden;"></div>
         </div>
         <script>
-            var maindom, subimgview, sublistbar, subimgview_s, sublistbar_s, curimgid, pos, spos, poslerp, sposlerp, myjson, vgrida, vgridb, vwidth, vheight, vswidth, vsheight, dvis, dvislerp, dtimer, bvis, bvislerp, btimer;
+            var maindom, subimgview, sublistbar, subimgview_s, sublistbar_s, curimgid, pos, spos, poslerp, sposlerp, myjson, vgrida, vgridb, vwidth, vheight, vswidth, vsheight, dvis, dvislerp, dtimer, bvis, bvislerp, btimer, i;
 
             vwidth = 800;
             vheight = 600;
@@ -74,7 +74,7 @@
                     },
                     {
                         title:"Natural Habitat",
-                        desc:"This is nature at it's finest",
+                        desc:"This is nature at its finest",
                         image:"SJImageGallery_Demo_Resource/bus-drink.jpg"
                     },
                     {
@@ -104,7 +104,7 @@
 
                 vgrida = '<div id="sjimgview_subimgview_scr" style="width:'+vwidth*mylist.image.length+'px; height:'+(vheight-vsheight)+'px; position:relative; right:0px;"><table style="border-collapse:collapse;"><tr>';
                 vgridb = '<div id="sjimgview_sublistbar_bar" style="width:'+vwidth*mylist.image.length+'px; height:'+vsheight+'px; position:relative; right:0px;"><table style="border-collapse:collapse;"><tr>';
-                for(let i=0; i<mylist.image.length; i++){
+                for(i=0; i<mylist.image.length; i++){
                     vgrida += '<td><div style="width:'+vwidth+'px; height:'+(vheight-vsheight)+'px; margin:-1px;">';
                     vgrida += '<img src="'+mylist.image[i].image+'" alt="'+mylist.image[i].desc+'" style="max-width:100%; max-height:100%; display: block; margin-left:auto; margin-right:auto; position: relative; top:50%; transform: translate(0, -50%);"></img>';
                     vgrida += '</div></td>';
@@ -129,7 +129,7 @@
                 sublistbar_s = document.getElementById('sjimgview_sublistbar_bar');
 
                 //Preload UI
-                for(let i=0; i<mylist.image.length; i++){
+                for(i=0; i<mylist.image.length; i++){
                     viewgrid = document.getElementById('siv_a_'+i);
                     viewgrid.style.backgroundColor = "";
 
@@ -158,7 +158,7 @@
                 }
 
                 //submenu views
-                for(let i=0; i<mylist.image.length; i++){
+                for(i=0; i<mylist.image.length; i++){
                     viewgrid = document.getElementById('siv_a_'+i);
                     if (viewgrid.contains(e.target)){
                         pos = vwidth*i;
@@ -168,7 +168,7 @@
                     }
                 }
 
-                for(let i=0; i<mylist.image.length; i++){
+                for(i=0; i<mylist.image.length; i++){
                     viewgrid = document.getElementById('siv_a_'+i);
                     viewgrid.style.backgroundColor = "";
 
