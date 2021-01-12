@@ -2,7 +2,7 @@
 
 An embeddable and configurable image gallery.
 
-Version 2021.1 (First release)
+Version 2021.1.2 (First revision)
 
 <br />
 <br />

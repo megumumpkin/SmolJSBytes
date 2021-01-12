@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- 
     SmolJSImageView
-    Version 2021.1 (First Release)
+    Version 2021.1.2 (First Revision)
     Developed by Megumumpkin
     Licensed under MIT
 
@@ -37,9 +37,9 @@
     </head>
     <body style="background-color: black;">
         <!-- Start copying here! -->
-        <div id="sjimgview" style="width:600px; height:500px; background-color: rgb(170, 170, 170); overflow: hidden; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; -o-user-select: none; user-select: none; overflow: hidden;">
-            <div id="sjimgview_subimgview" style="width:600px; height:400px; background-color: rgb(17, 17, 17); overflow: hidden;"></div>
-            <div id="sjimgview_sublistbar" style="width:600px; height:100px; background-color: rgb(32, 32, 32); overflow: hidden;"></div>
+        <div id="sjimgview" style="position:relative; width:600px; height:500px; background-color: rgb(170, 170, 170); overflow: hidden; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; -o-user-select: none; user-select: none; overflow: hidden;">
+            <div id="sjimgview_subimgview" style="position:relative; width:600px; height:400px; background-color: rgb(17, 17, 17); overflow: hidden;"></div>
+            <div id="sjimgview_sublistbar" style="position:relative; width:600px; height:100px; background-color: rgb(32, 32, 32); overflow: hidden;"></div>
         </div>
         <script>
             var maindom, subimgview, sublistbar, subimgview_s, sublistbar_s, curimgid, pos, spos, poslerp, sposlerp, myjson, vgrida, vgridb, vwidth, vheight, vswidth, vsheight, dvis, dvislerp, dtimer, bvis, bvislerp, btimer, i;
@@ -115,8 +115,8 @@
                 }
                 vgrida += '</tr></table></div>';
 
-                vgrida += '<div id="siv_b_l" style="width:50px; height:100px; background-color: rgb(100,100,100); position:absolute; top:'+(((vheight-vsheight)/2.0)-50)+'px; text-align: center; opacity:0.5;"><p style="top:50%; margin-top:+25px; font-size:40px; font-weight:bold; font-family:fantasy; color:white;"><<p></div>';
-                vgrida += '<div id="siv_b_r" style="width:50px; height:100px; background-color: rgb(100,100,100); position:absolute; top:'+(((vheight-vsheight)/2.0)-50)+'px; left: '+(vwidth-42)+'px; text-align: center; opacity:0.5;"><p style="top:50%; margin-top:+25px; font-size:40px; font-weight:bold; font-family:fantasy; color:white;">><p></div>';
+                vgrida += '<div id="siv_b_l" style="width:50px; height:100px; background-color: rgb(100,100,100); position:absolute; top:'+(((vheight-vsheight)/2.0)-50)+'px;text-align: center; opacity:0.5;"><p style="top:50%; margin-top:+25px; font-size:40px; font-weight:bold; font-family:fantasy; color:white;"><<p></div>';
+                vgrida += '<div id="siv_b_r" style="width:50px; height:100px; background-color: rgb(100,100,100); position:absolute; top:'+(((vheight-vsheight)/2.0)-50)+'px; left: '+(vwidth-50)+'px; text-align: center; opacity:0.5;"><p style="top:50%; margin-top:+25px; font-size:40px; font-weight:bold; font-family:fantasy; color:white;">><p></div>';
 
                 vgrida += '<div id="siv_c_a" style="width: '+vwidth+'px; height:80px; background-color: rgb(0,0,0); position:absolute; top:'+(vheight-vsheight-72)+'px; opacity:0.5;"><p id="siv_c_t" style="margin-left:15px; margin-top:5px;font-size:20px; font-weight:bold; font-family:sans-serif; color:white;"><p id="siv_c_d" style="margin-left:20px; margin-top:-15px;font-size:16px; font-family:sans-serif; color:white;"></div>';
 
